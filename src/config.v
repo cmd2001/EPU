@@ -75,8 +75,8 @@
 `define StageClear 1'b0
 
 // nop
-`define NOP_PC = 32'h0000
-`define NOP_INS = 32'b00000000000000000000000000010011
+`define NOP_PC 32'h0000
+`define NOP_INS 32'b00000000000000000000000000010011
 
 // regfiles
 `define ZeroWord = 32'h0000

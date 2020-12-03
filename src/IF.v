@@ -19,11 +19,11 @@ always @(posedge clk_in) begin
     if(mem_rdy) begin // wait until memory ready
         stall <= `ChipNotStall;
         out_pc <= input_pc;
-        ins = mem_data;
+        ins <= mem_data;
     end else begin
         stall <= `ChipStall;
-        out_pc <= input_pc;
-        ins = 0;
+        out_pc <= input_pc + 4;
+        ins <= 0;
     end
 end
 endmodule
