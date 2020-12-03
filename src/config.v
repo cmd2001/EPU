@@ -68,3 +68,12 @@
 `define MEM_BYTE 2'b00
 `define MEM_HALF 2'b01
 `define MEM_WORD 2'b10
+
+// stall bus and stage clear
+`define ChipStall 1'b1
+`define ChipNotStall 1'b0
+`define StageClear 1'b0
+
+// nop
+`define NOP_PC = 32'h00000000
+`define NOP_INS = 32'00000000000000000000000000010011

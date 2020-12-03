@@ -8,7 +8,22 @@ module IF(
   input  wire           mem_rdy,
   input  wire [31: 0]   mem_data,
 
+  input wire  [31: 0]   input_pc,
   output wire           stall,
+  output wire [31: 0]   output_pc,
   output wire [31: 0]   ins
 );
+always @(posedge clk_in) begin
+    mem_addr <= input_pc;
+    mem_size <= MEM_WORD;
+    if(mem_rdy) begin // wait until memory ready
+        stall <= `ChipNotStall;
+        out_pc <= input_pc;
+        ins = mem_data;
+    end else begin
+        stall <= `ChipStall;
+        out_pc <= input_pc;
+        ins = 0;
+    end
+end
 endmodule
