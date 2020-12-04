@@ -45,7 +45,7 @@
 `define ANDI 3'b111
 `define SLLI 3'b001
 `define SRLI_SRAI 3'b001
-`define SRLT_Diff 1'b0
+`define SRLI_Diff 1'b0
 `define SRAI_Diff 1'b1
 
 // Arithmetic and Logical Operation with 2 registers
@@ -79,4 +79,12 @@
 `define NOP_INS 32'b00000000000000000000000000010011
 
 // regfiles
-`define ZeroWord = 32'h0000
+`define ZeroWord 32'h0000
+
+// ALU
+`define ALU_NOP 2'b00
+`define ALU_CMP 2'b01
+`define ALU_ALUOPI 2'b10
+`define ALU_ALUOP 2'b11
+`define TureWord 32'h0001
+`define FalseWord 32'h0000

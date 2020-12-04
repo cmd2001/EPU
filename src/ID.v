@@ -22,7 +22,7 @@ module ID(
   output  reg [4: 0]    reg_read_2,
   input  wire [31: 0]   read_data_2,
 
-  output  reg           stall, // todo: stall
+  output  reg           stall, // todo: stall, use after load.
 
   output  reg [31: 0]   output_pc,
   output  reg [31: 0]   r1_data,
