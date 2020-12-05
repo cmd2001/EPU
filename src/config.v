@@ -96,3 +96,10 @@
 `define MEM_BYTE 2'b01
 `define MEM_HALF 2'b10
 `define MEM_WORD 2'b11
+
+// memctl2
+`define MEM_INIT 3'b000
+`define MEM_R1S2 3'b001
+`define MEM_R2S3 3'b010
+`define MEM_R3S4 3'b011
+`define MEM_R4 3'b100
