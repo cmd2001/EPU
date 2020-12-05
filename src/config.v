@@ -88,3 +88,11 @@
 `define ALU_ALUOP 2'b11
 `define TureWord 32'h0001
 `define FalseWord 32'h0000
+
+// memctl
+`define MEM_NOP 2'b00
+`define MEM_LOAD 2'b01
+`define MEM_SAVE 2'b10
+`define MEM_BYTE 2'b01
+`define MEM_HALF 2'b10
+`define MEM_WORD 2'b11

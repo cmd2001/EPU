@@ -12,7 +12,6 @@ module EX(
   input  wire [2: 0]    ins_details,
   input  wire           ins_diff,
 
-
   output  reg [1: 0]    alu_ins_type, // compare, op, opi
   output  reg [2: 0]    alu_ins_details,
   output  reg           alu_ins_diff,
@@ -27,8 +26,10 @@ module EX(
   output  reg           forward,
   output  reg [6: 0]    output_ins_type,
   output  reg [2: 0]    output_ins_details,
-  output reg  [31: 0]   mem_addr,
-  output reg  [31: 0]   mem_val
+  output  reg  [31: 0]  mem_addr,
+  output  reg  [31: 0]  mem_val,
+
+  output reg            stall_id
 );
 always @(*) begin
     if(rst_in) begin
@@ -47,6 +48,7 @@ always @(*) begin
         output_ins_details = 3'h0;
         mem_addr = `ZeroWord;
         mem_val = `ZeroWord;
+        stall_id = 1'b0;
     end else begin
         output_ins_type = ins_type;
         output_ins_details = ins_details;
@@ -65,6 +67,7 @@ always @(*) begin
                 forward = 1'b1;
                 mem_addr = `ZeroWord;
                 mem_val = `ZeroWord;
+                stall_id = 1'b0;
             end
             `AUIPC: begin
                 alu_ins_type = `ALU_NOP;
@@ -80,6 +83,7 @@ always @(*) begin
                 forward = 1'b1;
                 mem_addr = `ZeroWord;
                 mem_val = `ZeroWord;
+                stall_id = 1'b0;
             end
             `JAL: begin
                 alu_ins_type = `ALU_NOP;
@@ -95,6 +99,7 @@ always @(*) begin
                 forward = 1'b1;
                 mem_addr = `ZeroWord;
                 mem_val = `ZeroWord;
+                stall_id = 1'b0;
             end
             `JALR: begin
                 alu_ins_type = `ALU_NOP;
@@ -110,6 +115,7 @@ always @(*) begin
                 forward = 1'b1;
                 mem_addr = `ZeroWord;
                 mem_val = `ZeroWord;
+                stall_id = 1'b0;
             end
             `JMPC: begin
                 alu_ins_type = `ALU_CMP;
@@ -135,6 +141,7 @@ always @(*) begin
                     mem_addr = `ZeroWord;
                     mem_val = `ZeroWord;
                 end
+                stall_id = 1'b0;
             end
             `LOAD: begin
                 alu_ins_type = `ALU_NOP;
@@ -150,6 +157,7 @@ always @(*) begin
                 forward = 1'b0;
                 mem_addr = r1_data + imm;
                 mem_val = `ZeroWord;
+                stall_id = 1'b1;
             end
             `SAVE: begin
                 alu_ins_type = `ALU_NOP;
@@ -165,6 +173,7 @@ always @(*) begin
                 forward = 1'b0;
                 mem_addr = r1_data + imm;
                 mem_val = r2_data;
+                stall_id = 1'b0;
             end
             `ALOPI: begin
                 alu_ins_type = `ALU_ALUOPI;
@@ -180,6 +189,7 @@ always @(*) begin
                 forward = 1'b1;
                 mem_addr = `ZeroWord;
                 mem_val = `ZeroWord;
+                stall_id = 1'b0;
             end
             `ALOP: begin
                 alu_ins_type = `ALU_ALUOP;
@@ -195,6 +205,7 @@ always @(*) begin
                 forward = 1'b1;
                 mem_addr = `ZeroWord;
                 mem_val = `ZeroWord;
+                stall_id = 1'b0;
             end
         endcase
     end

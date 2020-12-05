@@ -6,14 +6,6 @@ module ID(
   input  wire [31: 0]   pc,
   input  wire [31: 0]   ins,
 
-  input  wire           forward_ex_enable,
-  input  wire [4: 0]    forward_ex_addr,
-  input  wire [31: 0]   forward_ex_data,
-
-  input  wire           forward_mem_enable,
-  input  wire [4: 0]    forward_mem_addr,
-  input  wire [31: 0]   forward_mem_data,
-
   output reg           read_flag_1,
   output reg [4: 0]    reg_read_1,
   input wire [31: 0]   read_data_1,
@@ -22,10 +14,13 @@ module ID(
   output  reg [4: 0]    reg_read_2,
   input  wire [31: 0]   read_data_2,
 
-  output  reg           stall, // todo: stall, use after load.
+  input   wire          is_mem,
+  output  reg           stall,
 
   output  reg [31: 0]   output_pc,
+  output  reg [4: 0]    r1_addr,
   output  reg [31: 0]   r1_data,
+  output  reg [4: 0]    r2_addr,
   output  reg [31: 0]   r2_data,
   output  reg [4: 0]    rd_addr,
   output  reg [31: 0]   imm,
@@ -44,21 +39,27 @@ always @(*) begin
         reg_read_2 = 5'h0;
 
         output_pc = `ZeroWord;
+        r1_addr = 5'h0;
         r1_data = `ZeroWord;
+        r2_addr = 5'h0;
         r2_data = `ZeroWord;
         rd_addr = 5'h0;
         imm = `ZeroWord;
         ins_type = 7'h0;
         ins_details = 2'h0;
         ins_diff = 1'b0;
+        stall = 1'b0;
     end else begin
         output_pc = pc;
+        stall = is_mem;
         case(type1)
             `LUI: begin
                 read_flag_1 = 1'b0;
                 reg_read_1 = 5'h0;
                 read_flag_2 = 1'b0;
                 reg_read_2 = 5'h0;
+                r1_addr = reg_read_1;
+                r2_addr = reg_read_2;
 
                 ins_type = type1;
                 r1_data = `ZeroWord;
@@ -73,6 +74,8 @@ always @(*) begin
                 reg_read_1 = 5'h0;
                 read_flag_2 = 1'b0;
                 reg_read_2 = 5'h0;
+                r1_addr = reg_read_1;
+                r2_addr = reg_read_2;
 
                 ins_type = type1;
                 r1_data = `ZeroWord;
@@ -87,6 +90,8 @@ always @(*) begin
                 reg_read_1 = 5'h0;
                 read_flag_2 = 1'b0;
                 reg_read_2 = 5'h0;
+                r1_addr = reg_read_1;
+                r2_addr = reg_read_2;
 
                 ins_type = type1;
                 r1_data = `ZeroWord;
@@ -101,6 +106,8 @@ always @(*) begin
                 reg_read_1 = ins[19: 15];
                 read_flag_2 = 1'b0;
                 reg_read_2 = 5'h0;
+                r1_addr = reg_read_1;
+                r2_addr = reg_read_2;
 
                 ins_type = type1;
                 r1_data = read_data_1;
@@ -115,6 +122,8 @@ always @(*) begin
                  reg_read_1 = ins[19: 15];
                  read_flag_2 = 1'b1;
                  reg_read_2 = ins[24: 20];
+                 r1_addr = reg_read_1;
+                 r2_addr = reg_read_2;
 
                  ins_type = type1;
                  r1_data = read_data_1;
@@ -129,6 +138,8 @@ always @(*) begin
                  reg_read_1 = ins[19: 15];
                  read_flag_2 = 1'b0;
                  reg_read_2 = 5'h0;
+                 r1_addr = reg_read_1;
+                 r2_addr = reg_read_2;
 
                  ins_type = type1;
                  r1_data = read_data_1;
@@ -143,6 +154,8 @@ always @(*) begin
                  reg_read_1 = ins[19: 15];
                  read_flag_2 = 1'b1;
                  reg_read_2 = ins[24: 20];
+                 r1_addr = reg_read_1;
+                 r2_addr = reg_read_2;
 
                  ins_type = type1;
                  r1_data = read_data_1;
@@ -152,11 +165,13 @@ always @(*) begin
                  ins_details = ins[14: 12];
                  ins_diff = 1'b0;
             end
-            `ALOPI: begin // fixme: solve shamt in EX.
+            `ALOPI: begin
                  read_flag_1 = 1'b1;
                  reg_read_1 = ins[19: 15];
                  read_flag_2 = 1'b0;
                  reg_read_2 = 5'h0;
+                 r1_addr = reg_read_1;
+                 r2_addr = reg_read_2;
 
                  ins_type = type1;
                  r1_data = read_data_1;
@@ -171,6 +186,8 @@ always @(*) begin
                  reg_read_1 = ins[19: 15];
                  read_flag_2 = 1'b1;
                  reg_read_2 = ins[24: 20];
+                 r1_addr = reg_read_1;
+                 r2_addr = reg_read_2;
 
                  ins_type = type1;
                  r1_data = read_data_1;

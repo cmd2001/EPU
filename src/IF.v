@@ -9,7 +9,7 @@ module IF(
   input  wire [31: 0]   mem_data,
 
   input wire  [31: 0]   input_pc,
-  output reg           stall,
+  output reg            stall,
   output reg  [31: 0]   output_pc,
   output reg  [31: 0]   ins
 );

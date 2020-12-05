@@ -3,15 +3,15 @@ module regfile(
   input  wire           rst_in,
   input  wire           rdy_in,
 
-  inout wire            write_flag,
+  input wire            write_flag,
   input wire [4: 0]     reg_write,
   input wire [31: 0]    write_data,
 
-  inout wire            read_flag_1,
+  input wire            read_flag_1,
   input wire [4: 0]     reg_read_1,
   output wire[31: 0]    output_data_1,
 
-  inout wire            read_flag_2,
+  input wire            read_flag_2,
   input wire [4: 0]     reg_read_2,
   output wire[31: 0]    output_data_2
 );
