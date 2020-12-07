@@ -20,8 +20,8 @@ module MEM(
   input  wire [31: 0]   mem_val,
 
   output reg            output_forward,
-  output reg            forward_rd_addr,
-  output reg            forward_rd_val,
+  output reg [4: 0]     forward_rd_addr,
+  output reg [31: 0]    forward_rd_val,
 
   output reg [4: 0]     output_rd_addr,
   output reg [31: 0]    output_rd_val,

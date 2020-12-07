@@ -2,6 +2,7 @@ module ID_EX(
   input  wire           clk_in,
   input  wire           rst_in,
   input  wire           rdy_in,
+  input  wire           clear,
 
   inout  wire           forward_ex_enable,
   inout  wire [4: 0]    forward_ex_addr,
@@ -22,6 +23,7 @@ module ID_EX(
   input  wire [2: 0]    ins_details,
   input  wire           ins_diff,
 
+  output  reg [31: 0]   output_pc,
   output  reg [31: 0]   output_r1_data,
   output  reg [31: 0]   output_r2_data,
   output  reg [4: 0]    output_rd_addr,
@@ -32,7 +34,7 @@ module ID_EX(
 );
 
 always @(posedge clk_in) begin
-    if(rst_in) begin // output NOP
+    if(rst_in || clear) begin // output NOP
         output_r1_data <= `ZeroWord;
         output_r2_data <= `ZeroWord;
         output_rd_addr <= 0'h0;

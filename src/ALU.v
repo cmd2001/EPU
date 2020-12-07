@@ -1,6 +1,7 @@
 module ALU(
   input  wire           clk_in,
   input  wire           rst_in,
+  input  wire			rdy_in,
 
   input  wire [1: 0]    ins_type, // compare, op, opi
   input  wire [2: 0]    ins_details,
