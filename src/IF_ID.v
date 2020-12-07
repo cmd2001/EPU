@@ -1,6 +1,7 @@
 module IF_ID(
   input  wire           clk_in,
   input  wire           rst_in,
+  input  wire           rdy_in,
 
   input wire            stall, // chip stall
   input wire            clear, // stage clear
