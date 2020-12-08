@@ -29,15 +29,18 @@ reg[1: 0]  op;
 reg[1: 0]  len;
 reg        source;
 reg[4: 0]  shift;
+reg        mem_just_finished;
 
 
 always @(posedge clk_in) begin
     if(rst_in) begin
+        curSta = `MEM_INIT;
+        mem_just_finished = 1'b0;
     end else begin
         case(curSta)
             `MEM_INIT: begin
                 shift = 5'h0;
-                if(MEM_op != `MEM_NOP) begin
+                if(MEM_op != `MEM_NOP && !mem_just_finished) begin
                     MEM_rdy <= 1'b0;
                     IF_rdy <= 1'b0;
 
@@ -62,8 +65,8 @@ always @(posedge clk_in) begin
                             curSta <= MEM_R4;
                         end
                     endcase
+                    mem_just_finished = 1'b1;
                 end else begin
-                    MEM_rdy <= 1'b1;
                     IF_rdy <= 1'b0;
 
                     op <= IF_op;
@@ -77,6 +80,7 @@ always @(posedge clk_in) begin
                     mem_dout <= 8'h0;
 
                     curSta <= MEM_R1S2;
+                    mem_just_finished = 1'b0;
                 end
             end
             `MEM_R1S2: begin

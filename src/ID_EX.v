@@ -4,6 +4,8 @@ module ID_EX(
   input  wire           rdy_in,
   input  wire           clear,
 
+  input  wire           stall,
+
   inout  wire           forward_ex_enable,
   inout  wire [4: 0]    forward_ex_addr,
   input  wire [31: 0]   forward_ex_data,
@@ -43,21 +45,23 @@ always @(posedge clk_in) begin
         output_ins_details <= 3'h0;
         output_ins_diff <= 1'h0;
     end else begin
-        output_rd_addr <= rd_addr;
-        output_imm <= imm;
-        output_ins_type <= ins_type;
-        output_ins_details <= ins_details;
-        output_ins_diff <= ins_diff;
+        if(!stall) begin
+            output_rd_addr <= rd_addr;
+            output_imm <= imm;
+            output_ins_type <= ins_type;
+            output_ins_details <= ins_details;
+            output_ins_diff <= ins_diff;
 
-        if(forward_mem_enable && forward_ex_enable) begin
-            output_r1_data <= r1_addr == forward_ex_addr ? forward_ex_data : (r1_addr == forward_mem_addr ? forward_mem_data : r1_data);
-            output_r2_data <= r2_addr == forward_ex_addr ? forward_ex_data : (r2_addr == forward_mem_addr ? forward_mem_data : r2_data);
-        end else if(forward_ex_enable) begin
-            output_r1_data <= r1_addr == forward_ex_addr ? forward_ex_data : r1_data;
-            output_r2_data <= r2_addr == forward_ex_addr ? forward_ex_data : r2_data;
-        end else if(forward_mem_enable) begin
-            output_r1_data <= r1_addr == forward_mem_addr ? forward_mem_data : r1_data;
-            output_r2_data <= r2_addr == forward_mem_addr ? forward_mem_data : r2_data;
+            if(forward_mem_enable && forward_ex_enable) begin
+                output_r1_data <= r1_addr == forward_ex_addr ? forward_ex_data : (r1_addr == forward_mem_addr ? forward_mem_data : r1_data);
+                output_r2_data <= r2_addr == forward_ex_addr ? forward_ex_data : (r2_addr == forward_mem_addr ? forward_mem_data : r2_data);
+            end else if(forward_ex_enable) begin
+                output_r1_data <= r1_addr == forward_ex_addr ? forward_ex_data : r1_data;
+                output_r2_data <= r2_addr == forward_ex_addr ? forward_ex_data : r2_data;
+            end else if(forward_mem_enable) begin
+                output_r1_data <= r1_addr == forward_mem_addr ? forward_mem_data : r1_data;
+                output_r2_data <= r2_addr == forward_mem_addr ? forward_mem_data : r2_data;
+            end
         end
     end
 end

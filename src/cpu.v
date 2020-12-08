@@ -208,7 +208,7 @@ ID ID0(
 ID_EX ID_EX0(
     .clk_in(clk_in), .rst_in(rst_in), .rdy_in(rdy_in),
 
-    .clear(EX_take_jmp),
+    .clear(EX_take_jmp), .stall(stall_bus_output),
 
     .forward_ex_enable(EX_forward_enabled), .forward_ex_addr(EX_output_rd_addr), .forward_ex_data(EX_output_rd_val),
     .forward_mem_enable(MEM_forward_enabled), .forward_mem_addr(MEM_forward_rd_addr), .forward_mem_data(MEM_forward_rd_val),
@@ -245,6 +245,8 @@ ALU ALU0(
 EX_MEM EX_MEM0(
     .clk_in(clk_in), .rst_in(rst_in), .rdy_in(rdy_in),
 
+    .stall(stall_bus_output),
+
     .forward(EX_forward_enabled), .rd_addr(EX_output_rd_addr), .rd_val(EX_rd_val),
     .ins_type(EX_output_ins_type), .ins_details(EX_output_ins_details), .mem_addr(EX_mem_addr), .mem_val(EX_mem_val),
 
@@ -272,6 +274,8 @@ MEM MEM0(
 MEM_WB MEM_WB0(
     .clk_in(clk_in), .rst_in(rst_in), .rdy_in(rdy_in),
 
+    .stall(stall_bus_output),
+
     .rd_addr(MEM_output_rd_addr), .rd_val(MEM_output_rd_val), .ins_type(MEM_output_ins_type),
 
     .output_rd_addr(MEM_WB_output_rd_addr), .output_rd_val(MEM_WB_output_rd_val), .output_ins_type(MEM_WB_output_ins_type)
@@ -284,8 +288,5 @@ WB WB0(
 
     .write_enable(write_flag), .write_addr(reg_write), .write_data(write_data)
 );
-
-//fixme: stall in middle-registers.
-
 
 endmodule
