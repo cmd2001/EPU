@@ -122,7 +122,7 @@ always @(*) begin
                 alu_ins_details = ins_details;
                 alu_ins_diff = ins_diff;
                 alu_r1 = r1_data;
-                alu_r2 = `r2_data;
+                alu_r2 = r2_data;
 
                 if(alu_out) begin
                     take_jmp = 1'b1;
@@ -184,7 +184,7 @@ always @(*) begin
 
                 take_jmp = 1'b0;
                 jmp_pc = `ZeroWord;
-                outout_rd_addr = rd_addr;
+                output_rd_addr = rd_addr;
                 rd_val = alu_out;
                 forward = 1'b1;
                 mem_addr = `ZeroWord;
@@ -200,7 +200,7 @@ always @(*) begin
 
                 take_jmp = 1'b0;
                 jmp_pc = `ZeroWord;
-                outout_rd_addr = rd_addr;
+                output_rd_addr = rd_addr;
                 rd_val = alu_out;
                 forward = 1'b1;
                 mem_addr = `ZeroWord;

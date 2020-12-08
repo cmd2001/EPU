@@ -9,11 +9,11 @@ module regfile(
 
   input wire            read_flag_1,
   input wire [4: 0]     reg_read_1,
-  output wire[31: 0]    output_data_1,
+  output reg[31: 0]    output_data_1,
 
   input wire            read_flag_2,
   input wire [4: 0]     reg_read_2,
-  output wire[31: 0]    output_data_2
+  output reg[31: 0]    output_data_2
 );
 reg[31: 0] regs[0: 31];
 
@@ -53,10 +53,11 @@ always @(*) begin
     end
 end
 
+integer i;
+
 always @(*) begin
     if(rst_in) begin
-        integer i;
-        for(i = 0; i < 32; i++) begin
+        for(i = 0; i < 32; i=i+1) begin
             regs[i] <= `ZeroWord;
         end
     end else if (write_flag && reg_write) begin

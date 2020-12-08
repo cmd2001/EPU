@@ -62,13 +62,6 @@
 `define OR 3'b110
 `define AND 3'b111
 
-// memory control operations
-`define MEM_READ 1'b0
-`define MEM_WRITE 1'b1
-`define MEM_BYTE 2'b00
-`define MEM_HALF 2'b01
-`define MEM_WORD 2'b10
-
 // stall bus and stage clear
 `define ChipStall 1'b1
 `define ChipNotStall 1'b0
@@ -86,7 +79,7 @@
 `define ALU_CMP 2'b01
 `define ALU_ALUOPI 2'b10
 `define ALU_ALUOP 2'b11
-`define TureWord 32'h0001
+`define TrueWord 32'h0001
 `define FalseWord 32'h0000
 
 // memctl

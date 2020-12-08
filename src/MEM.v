@@ -42,14 +42,14 @@ always @(*) begin
         if(ins_type == `LOAD) begin
             memctl_op = `MEM_LOAD;
             memctl_addr = mem_addr;
-            memctl_val = `ZeroWord;
+            memctl_data = `ZeroWord;
             output_rd_addr = rd_addr;
             case(ins_details)
                 `LB: begin
                     memctl_len = `MEM_BYTE;
                     output_rd_addr = rd_addr;
                     if(memctl_fin) begin
-                        output_rd_val = {25{memctl_out[7]}, memctl_out[6: 0]};
+                        output_rd_val = {{25{memctl_out[7]}}, memctl_out[6: 0]};
                         stall = 1'b0;
                     end else begin
                         output_rd_val = `ZeroWord;
@@ -60,7 +60,7 @@ always @(*) begin
                     memctl_len = `MEM_HALF;
                     output_rd_addr = rd_addr;
                     if(memctl_fin) begin
-                        output_rd_val = {17{memctl_out[15]}, memctl_out[14: 0]};
+                        output_rd_val = {{17{memctl_out[15]}}, memctl_out[14: 0]};
                         stall = 1'b0;
                     end else begin
                         output_rd_val = `ZeroWord;
@@ -82,7 +82,7 @@ always @(*) begin
                     memctl_len = `MEM_BYTE;
                     output_rd_addr = rd_addr;
                     if(memctl_fin) begin
-                        output_rd_val = {25{1'b0}, memctl_out[6: 0]};
+                        output_rd_val = {{25{1'b0}}, memctl_out[6: 0]};
                         stall = 1'b0;
                     end else begin
                         output_rd_val = `ZeroWord;
@@ -93,7 +93,7 @@ always @(*) begin
                     memctl_len = `MEM_HALF;
                     output_rd_addr = rd_addr;
                     if(memctl_fin) begin
-                        output_rd_val = {17{1'b0}, memctl_out[14: 0]};
+                        output_rd_val = {{17{1'b0}}, memctl_out[14: 0]};
                         stall = 1'b0;
                     end else begin
                         output_rd_val = `ZeroWord;
@@ -103,14 +103,14 @@ always @(*) begin
             endcase
             output_forward = 1'b1;
             forward_rd_addr = rd_addr;
-            forward_rd_data = output_rd_val;
+            forward_rd_val = output_rd_val;
         end else if(ins_type == `SAVE) begin
             memctl_op = `MEM_SAVE;
             memctl_addr = mem_addr;
-            memctl_val = mem_val;
+            memctl_data = mem_val;
             output_forward = 1'b0;
             forward_rd_addr = 5'b0;
-            forward_rd_data = `ZeroWord;
+            forward_rd_val = `ZeroWord;
             case(ins_details)
                 `SB: begin
                     memctl_len = `MEM_BYTE;
