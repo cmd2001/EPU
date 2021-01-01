@@ -65,7 +65,7 @@
 // stall bus and stage clear
 `define ChipStall 1'b1
 `define ChipNotStall 1'b0
-`define StageClear 1'b0
+`define StageClear 1'b1
 
 // nop
 `define NOP_PC 32'h0000
@@ -91,8 +91,13 @@
 `define MEM_WORD 2'b11
 
 // memctl2
-`define MEM_INIT 3'b000
-`define MEM_R1S2 3'b001
-`define MEM_R2S3 3'b010
-`define MEM_R3S4 3'b011
-`define MEM_R4 3'b100
+`define MEM_INIT 4'b0000
+`define MEM_R1S2 4'b0001
+`define MEM_R2S3 4'b0010
+`define MEM_R3S4 4'b0011
+`define MEM_R4 4'b0100
+
+`define MEM_R1S2A 4'b1001
+`define MEM_R2S3A 4'b1010
+`define MEM_R3S4A 4'b1011
+`define MEM_R4A 4'b1100

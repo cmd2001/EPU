@@ -13,7 +13,7 @@ module pc_reg(
 reg [31: 0] pc;
 always @(posedge clk_in) begin
     if(rst_in) begin
-        pc <= `ZeroWord + 4;
+        pc <= `ZeroWord;
         output_pc <= `ZeroWord;
     end else begin
         if(stall) begin
