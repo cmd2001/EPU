@@ -23,7 +23,7 @@ module EX_MEM(
 );
 always @(posedge clk_in) begin
     if(rst_in) begin
-        forward <= 1'b0;
+        output_forward <= 1'b0;
         output_rd_addr <= 5'h0;
         output_rd_val <= `ZeroWord;
         output_ins_type <= `ADDI;

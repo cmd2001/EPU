@@ -39,7 +39,7 @@ always @(posedge clk_in) begin
     if(rst_in || clear) begin // output NOP
         output_r1_data <= `ZeroWord;
         output_r2_data <= `ZeroWord;
-        output_rd_addr <= 0'h0;
+        output_rd_addr <= 1'h0;
         output_imm <= `ZeroWord;
         output_ins_type <= `ADDI;
         output_ins_details <= 3'h0;

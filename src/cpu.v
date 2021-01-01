@@ -198,8 +198,8 @@ IF_ID IF_ID0(
 ID ID0(
     .clk_in(clk_in), .rst_in(rst_in), .rdy_in(rdy_in),
     .pc(IF_ID_pc), .ins(IF_ID_ins),
-    .read_flag_1(read_flag_1), .reg_read_1(reg_read_1), .output_data_1(output_data_1),
-    .read_flag_2(read_flag_2), .reg_read_2(reg_read_2), .output_data_2(output_data_2),
+    .read_flag_1(read_flag_1), .reg_read_1(reg_read_1), .read_data_1(output_data_1),
+    .read_flag_2(read_flag_2), .reg_read_2(reg_read_2), .read_data_2(output_data_2),
     .is_mem(EX_stall_id), .stall(stall_ID),
     .output_pc(ID_output_pc), .r1_addr(ID_r1_addr), .r1_data(ID_r1_data), .r2_addr(ID_r2_addr), .r2_data(ID_r2_data),
     .rd_addr(ID_rd_addr), .imm(ID_imm), .ins_type(ID_ins_type), .ins_details(ID_ins_details), .ins_diff(ID_ins_diff)
