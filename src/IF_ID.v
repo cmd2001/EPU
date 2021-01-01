@@ -6,8 +6,8 @@ module IF_ID(
   input wire            stall, // chip stall
   input wire            clear, // stage clear
 
-  input  reg [31: 0]   if_pc,
-  input  reg [31: 0]   if_ins,
+  input  wire [31: 0]   if_pc,
+  input  wire [31: 0]   if_ins,
   output reg [31: 0]   id_pc,
   output reg [31: 0]   id_ins
 );

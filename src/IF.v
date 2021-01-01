@@ -21,11 +21,11 @@ always @(*) begin
     memctl_addr = input_pc;
     if(memctl_rdy) begin // wait until memory ready
         stall = `ChipNotStall;
-        out_pc = input_pc;
+        output_pc = input_pc;
         ins = memctl_out;
     end else begin
         stall = `ChipStall;
-        out_pc = input_pc + 4;
+        output_pc = input_pc + 4;
         ins = 0;
     end
 end

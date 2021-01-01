@@ -22,7 +22,7 @@ always @(posedge clk_in) begin
     end else begin
         if(!stall) begin
             output_ins_type <= ins_type;
-            outout_rd_addr <= rd_addr;
+            output_rd_addr <= rd_addr;
             output_rd_val <= rd_val;
         end
     end

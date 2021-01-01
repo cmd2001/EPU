@@ -17,9 +17,9 @@ module MEM_Control (
   output reg  [31: 0]    MEM_out,
 
   input  wire [ 7:0]          mem_din,		// data input bus
-  output wire [ 7:0]          mem_dout,		// data output bus
-  output wire [31:0]          mem_a,			// address bus (only 17:0 is used)
-  output wire                 mem_wr			// write/read signal (1 for write)
+  output reg  [ 7:0]          mem_dout,		// data output bus
+  output reg  [31:0]          mem_a,			// address bus (only 17:0 is used)
+  output reg                  mem_wr			// write/read signal (1 for write)
 );
 
 reg[3: 0]  curSta;
@@ -51,18 +51,18 @@ always @(posedge clk_in) begin
                     source <= 1'b1;
 
                     mem_a <= MEM_addr;
-                    mem_wr <= MEM_op == `MEM_SAVE ? 0'b1 : 0'b0;
+                    mem_wr <= MEM_op == `MEM_SAVE ? 1'b1 : 1'b0;
                     mem_dout <= (MEM_op == `MEM_SAVE ? MEM_data[7: 0] : 8'h0);
 
                     case(MEM_len)
                         `MEM_WORD: begin
-                            curSta <= MEM_R1S2;
+                            curSta <= `MEM_R1S2;
                         end
                         `MEM_HALF: begin
-                            curSta <= MEM_R3S4;
+                            curSta <= `MEM_R3S4;
                         end
                         `MEM_BYTE: begin
-                            curSta <= MEM_R4;
+                            curSta <= `MEM_R4;
                         end
                     endcase
                     mem_just_finished = 1'b1;
@@ -76,10 +76,10 @@ always @(posedge clk_in) begin
                     source <= 1'b0;
 
                     mem_a <= IF_addr;
-                    mem_wr <= 0'b0;
+                    mem_wr <= 1'b0;
                     mem_dout <= 8'h0;
 
-                    curSta <= MEM_R1S2;
+                    curSta <= `MEM_R1S2;
                     mem_just_finished = 1'b0;
                 end
             end
@@ -150,7 +150,7 @@ always @(posedge clk_in) begin
                     IF_out <= data;
                 end
                 mem_a <= `ZeroWord;
-                mem_wr <= 0'b0;
+                mem_wr <= 1'b0;
                 mem_dout <= 8'h00;
             end
         endcase

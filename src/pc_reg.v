@@ -19,8 +19,8 @@ always @(posedge clk_in) begin
         if(stall) begin
             output_pc <= pc;
         end else if(jmp_tak) begin
-            pc <= jmptar + 4;
-            output_pc <= jmptar;
+            pc <= jmp_tar + 4;
+            output_pc <= jmp_tar;
         end else begin
             pc <= pc + 4;
             output_pc <= pc;
