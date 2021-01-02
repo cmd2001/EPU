@@ -31,10 +31,10 @@ module MEM(
 always @(*) begin
     if(rst_in) begin
         output_forward = 1'b0;
-        forward_rd_addr = `ZeroWord;
+        forward_rd_addr = 5'h0;
         forward_rd_val = `ZeroWord;
         output_rd_addr = 5'h0;
-        output_rd_val = 5'h0;
+        output_rd_val = `ZeroWord;
         output_ins_type = `ADDI;
         stall = 3'b000;
     end else begin

@@ -16,11 +16,15 @@ always @(posedge clk_in) begin
         pc <= `ZeroWord;
         output_pc <= `ZeroWord;
     end else begin
-        if(stall) begin
-            output_pc <= pc;
-        end else if(jmp_tak) begin
-            pc <= jmp_tar + 4;
+        if(jmp_tak) begin
+            if(stall) begin
+                pc <= jmp_tar;
+            end else begin
+                pc <= jmp_tar + 4;
+            end
             output_pc <= jmp_tar;
+        end else if(stall) begin
+            output_pc <= pc;
         end else begin
             pc <= pc + 4;
             output_pc <= pc;

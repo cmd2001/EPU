@@ -109,7 +109,7 @@ always @(*) begin
                 alu_r2 = `ZeroWord;
 
                 take_jmp = 1'b1;
-                jmp_pc = pc - 4 + imm;
+                jmp_pc = r1_data + imm;
                 output_rd_addr = rd_addr;
                 rd_val = pc;
                 forward = 1'b1;

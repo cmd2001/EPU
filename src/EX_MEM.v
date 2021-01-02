@@ -31,7 +31,7 @@ always @(posedge clk_in) begin
         output_mem_addr <= `ZeroWord;
         output_mem_val <= `ZeroWord;
     end else begin
-        if(stall & `STALL_MASK_IDEX_EXMEM) begin
+        if(!(stall & `STALL_MASK_IDEX_EXMEM)) begin
             output_forward <= forward;
             output_rd_addr <= rd_addr;
             output_rd_val <= rd_val;

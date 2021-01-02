@@ -41,12 +41,12 @@ always @(posedge clk_in) begin
         output_r2_data <= `ZeroWord;
         output_rd_addr <= 1'h0;
         output_imm <= `ZeroWord;
-        output_ins_type <= `ADDI;
-        output_ins_details <= 3'h0;
+        output_ins_type <= `ALOPI;
+        output_ins_details <= `ADDI;
         output_ins_diff <= 1'h0;
         output_pc <= `ZeroWord;
     end else begin
-        if(stall & `STALL_MASK_IDEX_EXMEM) begin
+        if(!(stall & `STALL_MASK_IDEX_EXMEM)) begin
             output_rd_addr <= rd_addr;
             output_imm <= imm;
             output_ins_type <= ins_type;

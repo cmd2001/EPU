@@ -30,6 +30,7 @@ reg[1: 0]  op;
 reg[1: 0]  len;
 reg        source;
 reg        mem_just_finished;
+reg[31: 0] shift;
 
 
 always @(posedge clk_in) begin
@@ -44,7 +45,6 @@ always @(posedge clk_in) begin
         end else begin
             case(curSta)
                 `MEM_STALL1: begin
-                    MEM_rdy <= 1'b0;
                     IF_rdy <= 1'b0;
                     curSta <= `MEM_STALL2;
                 end
@@ -57,14 +57,16 @@ always @(posedge clk_in) begin
                         IF_rdy <= 1'b0;
 
                         op <= MEM_op;
-                        addr <= MEM_addr + 2;
+                        addr <= MEM_addr + 1;
+                        shift <= 32'h8;
                         data <= (MEM_op == `MEM_SAVE ? MEM_data : `ZeroWord) >> 8;
                         len <= MEM_len;
                         source <= 1'b1;
 
-                        mem_a <= MEM_addr + 3;
+                        mem_a <= MEM_addr;
                         mem_wr <= MEM_op == `MEM_SAVE ? 1'b1 : 1'b0;
                         mem_dout <= (MEM_op == `MEM_SAVE ? MEM_data[7: 0] : 8'h0);
+
 
                         case(MEM_len)
                             `MEM_WORD: begin
@@ -82,12 +84,13 @@ always @(posedge clk_in) begin
                         IF_rdy <= 1'b0;
 
                         op <= IF_op;
-                        addr <= IF_addr + 2;
+                        addr <= IF_addr + 1;
+                        shift <= 32'h8;
                         data <= `ZeroWord;
                         len <= IF_len;
                         source <= 1'b0;
 
-                        mem_a <= IF_addr + 3;
+                        mem_a <= IF_addr;
                         mem_wr <= 1'b0;
                         mem_dout <= 8'h0;
 
@@ -100,17 +103,18 @@ always @(posedge clk_in) begin
                 end
                 `MEM_R1S2A: begin
                     if(op == `MEM_LOAD) begin
-                        data <= (data << 8) | mem_din;
+                        data <= data | (mem_din << (shift - 8));
                         mem_a <= addr;
-                        addr <= addr - 1;
                         mem_wr <= 1'b0;
                     end else begin
                         mem_dout <= data[7: 0];
                         data <= data >> 8;
                         mem_a <= addr;
-                        addr <= addr - 1;
                         mem_wr <= 1'b1;
                     end
+
+                    addr <= addr + 1;
+                    shift <= shift + 8;
 
                     curSta <= `MEM_R2S3;
                 end
@@ -119,17 +123,18 @@ always @(posedge clk_in) begin
                 end
                 `MEM_R2S3A: begin
                     if(op == `MEM_LOAD) begin
-                        data <= (data << 8) | mem_din;
+                        data <= data | (mem_din << (shift - 8));
                         mem_a <= addr;
-                        addr <= addr - 1;
                         mem_wr <= 1'b0;
                     end else begin
-                        mem_dout <= data[7: 0];
+                        mem_dout <= data;
                         data <= data >> 8;
                         mem_a <= addr;
-                        addr <= addr - 1;
                         mem_wr <= 1'b1;
                     end
+
+                    addr <= addr + 1;
+                    shift <= shift + 8;
 
                     curSta <= `MEM_R3S4;
                 end
@@ -138,17 +143,18 @@ always @(posedge clk_in) begin
                 end
                 `MEM_R3S4A: begin
                     if(op == `MEM_LOAD) begin
-                        data <= (data << 8) | mem_din;
+                        data <= data | (mem_din << (shift - 8));
                         mem_a <= addr;
-                        addr <= addr - 1;
                         mem_wr <= 1'b0;
                     end else begin
-                        mem_dout <= data[7: 0];
+                        mem_dout <= data;
                         data <= data >> 8;
                         mem_a <= addr;
-                        addr <= addr - 1;
                         mem_wr <= 1'b1;
                     end
+
+                    addr <= addr + 1;
+                    shift <= shift + 8;
 
                     curSta <= `MEM_R4;
                 end
@@ -156,19 +162,22 @@ always @(posedge clk_in) begin
                     curSta <= `MEM_R4A;
                 end
                 `MEM_R4A: begin
-                    if(source) begin
-                        MEM_rdy <= 1'b1;
-                        if(op == `MEM_LOAD) begin
-                            MEM_out <= (data << 8) | mem_din;
-                        end
-                    end else begin
-                        IF_rdy <= 1'b1;
-                        IF_out <= (data << 8) | mem_din;
+                    if(op == `MEM_LOAD) begin
+                        data <= data | (mem_din << (shift - 8));
+                        mem_a <= addr;
+                        mem_wr <= 1'b0;
                     end
-                    mem_a <= `ZeroWord;
+
+                    if(source) begin
+                        if(op == `MEM_LOAD) begin
+                            MEM_out <= data | (mem_din << (shift - 8));
+                        end
+                        MEM_rdy <= 1'b1;
+                    end else begin
+                        IF_out <= data | (mem_din << (shift - 8));
+                        IF_rdy <= 1'b1;
+                    end
                     mem_wr <= 1'b0;
-                    mem_dout <= 8'h00;
-                    
                     curSta = `MEM_STALL1;
                 end
             endcase

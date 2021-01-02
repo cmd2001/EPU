@@ -47,7 +47,7 @@ wire [4: 0]   ID_r1_addr;
 wire [31: 0]  ID_r1_data;
 wire [4: 0]   ID_r2_addr;
 wire [31: 0]  ID_r2_data;
-wire [31: 0]  ID_rd_addr;
+wire [4: 0]  ID_rd_addr;
 wire [31: 0]  ID_imm;
 wire [6: 0]   ID_ins_type;
 wire [2: 0]   ID_ins_details;
@@ -210,7 +210,7 @@ ID_EX ID_EX0(
 
     .clear(EX_take_jmp), .stall(stall_bus_output),
 
-    .forward_ex_enable(EX_forward_enabled), .forward_ex_addr(EX_output_rd_addr), .forward_ex_data(EX_output_rd_val),
+    .forward_ex_enable(EX_forward_enabled), .forward_ex_addr(EX_output_rd_addr), .forward_ex_data(EX_rd_val),
     .forward_mem_enable(MEM_forward_enabled), .forward_mem_addr(MEM_forward_rd_addr), .forward_mem_data(MEM_forward_rd_val),
 
     .pc(ID_output_pc), .r1_addr(ID_r1_addr), .r1_data(ID_r1_data), .r2_addr(ID_r2_addr), .r2_data(ID_r2_data), .rd_addr(ID_rd_addr),
@@ -250,7 +250,7 @@ EX_MEM EX_MEM0(
     .forward(EX_forward_enabled), .rd_addr(EX_output_rd_addr), .rd_val(EX_rd_val),
     .ins_type(EX_output_ins_type), .ins_details(EX_output_ins_details), .mem_addr(EX_mem_addr), .mem_val(EX_mem_val),
 
-    .output_forward(EX_MEM_output_forward), .output_rd_addr(EX_MEM_output_rd_addr), .output_rd_val(EX_MEM_output_ins_type),
+    .output_forward(EX_MEM_output_forward), .output_rd_addr(EX_MEM_output_rd_addr), .output_rd_val(EX_MEM_output_rd_val),
     .output_ins_type(EX_MEM_output_ins_type), .output_ins_details(EX_MEM_output_ins_details),
     .output_mem_addr(EX_MEM_output_mem_addr), .output_mem_val(EX_MEM_output_mem_val)
 );
@@ -284,7 +284,7 @@ MEM_WB MEM_WB0(
 WB WB0(
     .clk_in(clk_in), .rst_in(rst_in), .rdy_in(rdy_in),
 
-    .rd_addr(MEM_WB_output_rd_addr), .rd_val(MEM_output_rd_val), .ins_type(MEM_output_ins_type),
+    .rd_addr(MEM_WB_output_rd_addr), .rd_val(MEM_WB_output_rd_val), .ins_type(MEM_WB_output_ins_type),
 
     .write_enable(write_flag), .write_addr(reg_write), .write_data(write_data)
 );
