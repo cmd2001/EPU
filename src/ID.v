@@ -129,7 +129,7 @@ always @(*) begin
                  r1_data = read_data_1;
                  r2_data = read_data_2;
                  rd_addr = 5'h0;
-                 imm = {{20{ins[31]}}, ins[7], ins[30: 25], ins[11: 8]};
+                 imm = {{20{ins[31]}}, ins[7], ins[30: 25], ins[11: 8], 1'b0};
                  ins_details = ins[14: 12];
                  ins_diff = 1'b0;
             end
