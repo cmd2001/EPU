@@ -31,7 +31,11 @@ reg[1: 0]  len;
 reg        source;
 reg        mem_just_finished;
 reg[31: 0] shift;
+reg[31: 0] raw_addr;
 
+reg[31: 0] icache_data[127: 0];
+reg[31: 0] icache_index[127: 0];
+`define icache_mask 127
 
 always @(posedge clk_in) begin
     if(rst_in) begin
@@ -39,6 +43,7 @@ always @(posedge clk_in) begin
         mem_just_finished <= 1'b0;
         IF_rdy <= 1'b0;
         MEM_rdy <= 1'b0;
+        icache_index[0] <= `ZeroWord + 1;
     end else begin
         if(take_jmp) begin
             curSta <= `MEM_INIT;
@@ -84,20 +89,25 @@ always @(posedge clk_in) begin
                         mem_just_finished = 1'b1;
                     end else begin
                         IF_rdy <= 1'b0;
+                        if(icache_index[IF_addr & `icache_mask] == IF_addr) begin
+                            raw_addr <= IF_addr;
+                            curSta <= `MEM_HIT;
+                        end else begin
+                            op <= IF_op;
+                            addr <= IF_addr + 1;
+                            shift <= 32'h8;
+                            data <= `ZeroWord;
+                            len <= IF_len;
+                            source <= 1'b0;
 
-                        op <= IF_op;
-                        addr <= IF_addr + 1;
-                        shift <= 32'h8;
-                        data <= `ZeroWord;
-                        len <= IF_len;
-                        source <= 1'b0;
+                            mem_a <= IF_addr;
+                            mem_wr <= 1'b0;
+                            mem_dout <= 8'h0;
 
-                        mem_a <= IF_addr;
-                        mem_wr <= 1'b0;
-                        mem_dout <= 8'h0;
-
-                        curSta <= `MEM_R1S2;
-                        mem_just_finished = 1'b0;
+                            curSta <= `MEM_R1S2;
+                            mem_just_finished <= 1'b0;
+                            raw_addr <= IF_addr;
+                        end
                     end
                 end
                 `MEM_R1S2: begin
@@ -180,11 +190,19 @@ always @(posedge clk_in) begin
                         end
                         MEM_rdy <= 1'b1;
                     end else begin
+                        icache_data[raw_addr & `icache_mask] <= data | (mem_din << (shift - 8));
+                        icache_index[raw_addr & `icache_mask] <= raw_addr;
+
                         IF_out <= data | (mem_din << (shift - 8));
                         IF_rdy <= 1'b1;
                     end
                     mem_wr <= 1'b0;
-                    curSta = `MEM_STALL1;
+                    curSta <= `MEM_STALL1;
+                end
+                `MEM_HIT: begin
+                    IF_out <= icache_data[raw_addr & `icache_mask];
+                    IF_rdy <= 1'b1;
+                    curSta <= `MEM_STALL1;
                 end
             endcase
         end

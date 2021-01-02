@@ -101,6 +101,8 @@
 `define MEM_R4A 4'b1100
 `define MEM_STALL1 4'b1000
 `define MEM_STALL2 4'b1111
+`define MEM_HIT 4'b1110
+`define MEM_HIT2 4'b0111
 
 // stall bus
 `define STALL_MEM 3'b001

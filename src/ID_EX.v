@@ -57,12 +57,10 @@ always @(posedge clk_in) begin
             if(forward_mem_enable && forward_ex_enable) begin
                 output_r1_data <= r1_addr == forward_ex_addr ? forward_ex_data : (r1_addr == forward_mem_addr ? forward_mem_data : r1_data);
                 output_r2_data <= r2_addr == forward_ex_addr ? forward_ex_data : (r2_addr == forward_mem_addr ? forward_mem_data : r2_data);
-            end
-            if(forward_ex_enable) begin
+            end else if(forward_ex_enable) begin
                 output_r1_data <= r1_addr == forward_ex_addr ? forward_ex_data : r1_data;
                 output_r2_data <= r2_addr == forward_ex_addr ? forward_ex_data : r2_data;
-            end
-            if(forward_mem_enable) begin
+            end else if(forward_mem_enable) begin
                 output_r1_data <= r1_addr == forward_mem_addr ? forward_mem_data : r1_data;
                 output_r2_data <= r2_addr == forward_mem_addr ? forward_mem_data : r2_data;
             end
