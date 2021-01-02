@@ -52,8 +52,10 @@ always @(posedge clk_in) begin
                     curSta <= `MEM_INIT;
                 end
                 `MEM_INIT: begin
-                    if(MEM_op != `MEM_NOP && !mem_just_finished) begin
+                    if(!mem_just_finished) begin
                         MEM_rdy <= 1'b0;
+                    end
+                    if(MEM_op != `MEM_NOP && !mem_just_finished) begin
                         IF_rdy <= 1'b0;
 
                         op <= MEM_op;
@@ -99,6 +101,7 @@ always @(posedge clk_in) begin
                     end
                 end
                 `MEM_R1S2: begin
+                    mem_wr <= 1'b0;
                     curSta <= `MEM_R1S2A;
                 end
                 `MEM_R1S2A: begin
@@ -119,6 +122,7 @@ always @(posedge clk_in) begin
                     curSta <= `MEM_R2S3;
                 end
                 `MEM_R2S3: begin
+                    mem_wr <= 1'b0;
                     curSta <= `MEM_R2S3A;
                 end
                 `MEM_R2S3A: begin
@@ -139,6 +143,7 @@ always @(posedge clk_in) begin
                     curSta <= `MEM_R3S4;
                 end
                 `MEM_R3S4: begin
+                    mem_wr <= 1'b0;
                     curSta <= `MEM_R3S4A;
                 end
                 `MEM_R3S4A: begin
@@ -159,6 +164,7 @@ always @(posedge clk_in) begin
                     curSta <= `MEM_R4;
                 end
                 `MEM_R4: begin
+                    mem_wr <= 1'b0;
                     curSta <= `MEM_R4A;
                 end
                 `MEM_R4A: begin

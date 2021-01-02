@@ -126,6 +126,7 @@ always @(*) begin
                 end
             endcase
         end else begin
+            memctl_op = `MEM_NOP;
             output_forward = forward;
             forward_rd_addr = rd_addr;
             forward_rd_val = rd_val;

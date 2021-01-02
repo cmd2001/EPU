@@ -274,8 +274,6 @@ MEM MEM0(
 MEM_WB MEM_WB0(
     .clk_in(clk_in), .rst_in(rst_in), .rdy_in(rdy_in),
 
-    .stall(stall_bus_output),
-
     .rd_addr(MEM_output_rd_addr), .rd_val(MEM_output_rd_val), .ins_type(MEM_output_ins_type),
 
     .output_rd_addr(MEM_WB_output_rd_addr), .output_rd_val(MEM_WB_output_rd_val), .output_ins_type(MEM_WB_output_ins_type)

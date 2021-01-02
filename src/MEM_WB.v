@@ -3,8 +3,6 @@ module MEM_WB(
   input  wire           rst_in,
   input  wire           rdy_in,
 
-  input  wire           stall,
-
   input  wire [4: 0]    rd_addr,
   input  wire [31: 0]   rd_val,
   input  wire [6: 0]    ins_type,
