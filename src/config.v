@@ -7,7 +7,7 @@
 // instruction types
 `define LUI 7'b0110111
 `define AUIPC 7'b0010111
-`define JAL 7'b110111
+`define JAL 7'b1101111
 `define JALR 7'b1100111
 `define JMPC 7'b1100011
 `define LOAD 7'b0000011
@@ -63,8 +63,6 @@
 `define AND 3'b111
 
 // stall bus and stage clear
-`define ChipStall 1'b1
-`define ChipNotStall 1'b0
 `define StageClear 1'b1
 
 // nop
@@ -101,3 +99,13 @@
 `define MEM_R2S3A 4'b1010
 `define MEM_R3S4A 4'b1011
 `define MEM_R4A 4'b1100
+`define MEM_STALL1 4'b1000
+`define MEM_STALL2 4'b1111
+
+// stall bus
+`define STALL_MEM 3'b001
+`define STALL_ID 3'b010
+`define STALL_IF 3'b100
+`define STALL_MASK_PCREG 3'b111
+`define STALL_MASK_IFID 3'b011
+`define STALL_MASK_IDEX_EXMEM 3'b001

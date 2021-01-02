@@ -3,7 +3,7 @@ module EX_MEM(
   input  wire           rst_in,
   input  wire           rdy_in,
 
-  input  wire           stall,
+  input  wire [2: 0]    stall,
 
   input  wire           forward,
   input  wire [4: 0]    rd_addr,
@@ -31,7 +31,7 @@ always @(posedge clk_in) begin
         output_mem_addr <= `ZeroWord;
         output_mem_val <= `ZeroWord;
     end else begin
-        if(!stall) begin
+        if(stall & `STALL_MASK_IDEX_EXMEM) begin
             output_forward <= forward;
             output_rd_addr <= rd_addr;
             output_rd_val <= rd_val;

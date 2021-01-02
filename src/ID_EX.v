@@ -4,7 +4,7 @@ module ID_EX(
   input  wire           rdy_in,
   input  wire           clear,
 
-  input  wire           stall,
+  input  wire [2: 0]    stall,
 
   inout  wire           forward_ex_enable,
   inout  wire [4: 0]    forward_ex_addr,
@@ -44,21 +44,25 @@ always @(posedge clk_in) begin
         output_ins_type <= `ADDI;
         output_ins_details <= 3'h0;
         output_ins_diff <= 1'h0;
+        output_pc <= `ZeroWord;
     end else begin
-        if(!stall) begin
+        if(stall & `STALL_MASK_IDEX_EXMEM) begin
             output_rd_addr <= rd_addr;
             output_imm <= imm;
             output_ins_type <= ins_type;
             output_ins_details <= ins_details;
             output_ins_diff <= ins_diff;
+            output_pc <= pc;
 
             if(forward_mem_enable && forward_ex_enable) begin
                 output_r1_data <= r1_addr == forward_ex_addr ? forward_ex_data : (r1_addr == forward_mem_addr ? forward_mem_data : r1_data);
                 output_r2_data <= r2_addr == forward_ex_addr ? forward_ex_data : (r2_addr == forward_mem_addr ? forward_mem_data : r2_data);
-            end else if(forward_ex_enable) begin
+            end
+            if(forward_ex_enable) begin
                 output_r1_data <= r1_addr == forward_ex_addr ? forward_ex_data : r1_data;
                 output_r2_data <= r2_addr == forward_ex_addr ? forward_ex_data : r2_data;
-            end else if(forward_mem_enable) begin
+            end
+            if(forward_mem_enable) begin
                 output_r1_data <= r1_addr == forward_mem_addr ? forward_mem_data : r1_data;
                 output_r2_data <= r2_addr == forward_mem_addr ? forward_mem_data : r2_data;
             end

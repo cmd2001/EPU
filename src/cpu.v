@@ -122,10 +122,10 @@ wire[31: 0]     output_data_2;
 
 // link stall_bus
 
-wire            stall_IF;
-wire            stall_ID;
-wire            stall_MEM;
-wire            stall_bus_output;
+wire [2: 0]    stall_IF;
+wire [2: 0]    stall_ID;
+wire [2: 0]    stall_MEM;
+wire [2: 0]    stall_bus_output;
 
 // link forwarding
 
@@ -157,7 +157,7 @@ wire  [31: 0]    MEMCTL_MEM_out;
 // modules
 
 MEM_Control MEM_Control0(
-    .clk_in(clk_in), .rst_in(rst_in), .rdy_in(rdy_in),
+    .clk_in(clk_in), .rst_in(rst_in), .rdy_in(rdy_in), .take_jmp(EX_take_jmp),
     .IF_op(MEMCTL_IF_op), .IF_len(MEMCTL_IF_len), .IF_addr(MEMCTL_IF_addr), .IF_rdy(MEMCTL_IF_rdy), .IF_out(MEMCTL_IF_out),
     .MEM_op(MEMCTL_MEM_op), .MEM_len(MEMCTL_MEM_len), .MEM_addr(MEMCTL_MEM_addr), .MEM_data(MEMCTL_MEM_data), .MEM_rdy(MEMCTL_MEM_rdy), .MEM_out(MEMCTL_MEM_out),
     .mem_din(mem_din), .mem_dout(mem_dout), .mem_a(mem_a), .mem_wr(mem_wr)

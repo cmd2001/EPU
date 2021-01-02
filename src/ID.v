@@ -15,7 +15,7 @@ module ID(
   input  wire [31: 0]   read_data_2,
 
   input   wire          is_mem,
-  output  reg           stall,
+  output  reg [2: 0]    stall,
 
   output  reg [31: 0]   output_pc,
   output  reg [4: 0]    r1_addr,
@@ -29,7 +29,7 @@ module ID(
   output  reg           ins_diff
 );
 
-assign type1 = ins[6: 0];
+wire[6: 0] type1 = ins[6: 0];
 
 always @(*) begin
     if(rst_in) begin
@@ -51,7 +51,7 @@ always @(*) begin
         stall = 1'b0;
     end else begin
         output_pc = pc;
-        stall = is_mem;
+        stall = is_mem ? `STALL_ID : 3'b000;
         case(type1)
             `LUI: begin
                 read_flag_1 = 1'b0;
@@ -97,7 +97,7 @@ always @(*) begin
                 r1_data = `ZeroWord;
                 r2_data = `ZeroWord;
                 rd_addr = ins[11: 7];
-                imm = {{12{ins[31]}}, ins[19: 12], ins[20], ins[30: 21]};
+                imm = {{12{ins[31]}}, ins[19: 12], ins[20], ins[30: 21], 1'b0};
                 ins_details = 2'h0;
                 ins_diff = 1'b0;
             end

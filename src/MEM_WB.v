@@ -20,11 +20,9 @@ always @(posedge clk_in) begin
         output_rd_addr = 5'h0;
         output_rd_val = `ZeroWord;
     end else begin
-        if(!stall) begin
-            output_ins_type <= ins_type;
-            output_rd_addr <= rd_addr;
-            output_rd_val <= rd_val;
-        end
+        output_ins_type <= ins_type;
+        output_rd_addr <= rd_addr;
+        output_rd_val <= rd_val;
     end
 end
 
