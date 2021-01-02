@@ -44,7 +44,7 @@
 `define ORI 3'b110
 `define ANDI 3'b111
 `define SLLI 3'b001
-`define SRLI_SRAI 3'b001
+`define SRLI_SRAI 3'b101
 `define SRLI_Diff 1'b0
 `define SRAI_Diff 1'b1
 
