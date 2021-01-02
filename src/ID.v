@@ -48,7 +48,7 @@ always @(*) begin
         ins_type = 7'h0;
         ins_details = 2'h0;
         ins_diff = 1'b0;
-        stall = 1'b0;
+        stall = 3'b000;
     end else begin
         output_pc = pc;
         stall = is_mem ? `STALL_ID : 3'b000;

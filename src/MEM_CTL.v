@@ -89,10 +89,10 @@ always @(posedge clk_in) begin
                         mem_just_finished = 1'b1;
                     end else begin
                         IF_rdy <= 1'b0;
-                        if(icache_index[IF_addr & `icache_mask] == IF_addr) begin
+                        /* if(icache_index[IF_addr & `icache_mask] == IF_addr) begin
                             raw_addr <= IF_addr;
                             curSta <= `MEM_HIT;
-                        end else begin
+                        end else */begin
                             op <= IF_op;
                             addr <= IF_addr + 1;
                             shift <= 32'h8;
