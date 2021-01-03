@@ -15,6 +15,7 @@ always @(posedge clk_in) begin
     if(rst_in == `ChipRst || clear == `StageClear) begin
         id_pc <= `NOP_PC;
         id_ins <= `NOP_INS;
+    end else if(!rdy_in) begin
     end else begin
         if(!(stall & `STALL_MASK_IFID)) begin
             if(stall == `STALL_IF) begin

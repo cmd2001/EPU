@@ -17,6 +17,7 @@ always @(posedge clk_in) begin
         output_ins_type <= `ALOPI;
         output_rd_addr = 5'h0;
         output_rd_val = `ZeroWord;
+    end else if(!rdy_in) begin
     end else begin
         output_ins_type <= ins_type;
         output_rd_addr <= rd_addr;

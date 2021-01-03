@@ -15,6 +15,7 @@ always @(posedge clk_in) begin
     if(rst_in) begin
         pc <= `ZeroWord;
         output_pc <= `ZeroWord;
+    end else if(!rdy_in) begin
     end else begin
         if(jmp_tak) begin
             if(stall) begin

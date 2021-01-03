@@ -45,6 +45,7 @@ always @(posedge clk_in) begin
         output_ins_details <= `ADDI;
         output_ins_diff <= 1'h0;
         output_pc <= `ZeroWord;
+    end else if(!rdy_in) begin
     end else begin
         if(!(stall & `STALL_MASK_IDEX_EXMEM)) begin
             if(clear || stall == `STALL_ID) begin

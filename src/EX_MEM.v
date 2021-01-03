@@ -30,6 +30,7 @@ always @(posedge clk_in) begin
         output_ins_details <= 3'h0;
         output_mem_addr <= `ZeroWord;
         output_mem_val <= `ZeroWord;
+    end else if(!rdy_in) begin
     end else begin
         if(!(stall & `STALL_MASK_IDEX_EXMEM)) begin
             output_forward <= forward;

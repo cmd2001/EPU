@@ -44,6 +44,7 @@ always @(posedge clk_in) begin
         IF_rdy <= 1'b0;
         MEM_rdy <= 1'b0;
         icache_index[0] <= `ZeroWord + 1;
+    end else if(!rdy_in) begin
     end else begin
         if(take_jmp) begin
             if(!mem_just_finished) begin
