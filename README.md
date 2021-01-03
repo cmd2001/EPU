@@ -8,5 +8,5 @@ CPU Homework For MS108-2020
 
 icache大小为128条指令
 
-无法通过的测试点：array_test1, array_test2, bulgarian, qsort, superloop, uartboom。
+无法通过的测试点：array_test1, array_test2, bulgarian, qsort, superloop, hanoi, uartboom。
 
