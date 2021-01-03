@@ -19,6 +19,7 @@ always @(*) begin
     if(rst_in) begin
         memctl_op = `MEM_NOP;
         memctl_addr = `ZeroWord;
+        memctl_len = 2'b00;
         stall = 3'b000;
         output_pc = `ZeroWord + 4;
         ins = `ZeroWord;
@@ -33,6 +34,7 @@ always @(*) begin
         end else begin
             stall = `STALL_IF;
             output_pc = input_pc + 4;
+            ins = memctl_out;
         end
     end
 end

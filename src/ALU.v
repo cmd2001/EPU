@@ -36,6 +36,9 @@ always @(*) begin
                     `BGEU: begin
                         out = r1 >= r2 ? `TrueWord : `FalseWord;
                     end
+                    default: begin
+                        out = `ZeroWord;
+                    end
                 endcase
             end
             `ALU_ALUOPI: begin // now imm in r2.
@@ -63,6 +66,9 @@ always @(*) begin
                     end
                     `SRLI_SRAI: begin
                         out = ins_diff == `SRLI_Diff ? (r1 >> (r2[4: 0])) : ($signed(r1) >> (r2[4: 0]));
+                    end
+                    default: begin
+                        out = `ZeroWord;
                     end
                 endcase
             end
@@ -92,7 +98,13 @@ always @(*) begin
                     `AND: begin
                         out = r1 & r2;
                     end
+                    default: begin
+                        out = `ZeroWord;
+                    end
                 endcase
+            end
+            default: begin
+                out = `ZeroWord;
             end
         endcase
     end

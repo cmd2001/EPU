@@ -30,6 +30,11 @@ module MEM(
 );
 always @(*) begin
     if(rst_in) begin
+        memctl_op = `MEM_NOP;
+        memctl_len = `MEM_BYTE;
+        memctl_addr = `ZeroWord;
+        memctl_data = `ZeroWord;
+        
         output_forward = 1'b0;
         forward_rd_addr = 5'h0;
         forward_rd_val = `ZeroWord;
@@ -100,6 +105,16 @@ always @(*) begin
                         stall = `STALL_MEM;
                     end
                 end
+                default: begin
+                    memctl_op = `MEM_NOP;
+                    memctl_len = `MEM_BYTE;
+                    memctl_addr = `ZeroWord;
+                    memctl_data = `ZeroWord;
+                    
+                    output_rd_addr = 5'h0;
+                    output_rd_val = `ZeroWord;
+                    stall = 3'b000;
+                end
             endcase
             output_forward = 1'b1;
             forward_rd_addr = rd_addr;
@@ -124,9 +139,23 @@ always @(*) begin
                     memctl_len = `MEM_WORD;
                     stall = memctl_fin ? 1'b0 : 1'b1;
                 end
+                default: begin
+                    memctl_op = `MEM_NOP;
+                    memctl_len = `MEM_BYTE;
+                    memctl_addr = `ZeroWord;
+                    memctl_data = `ZeroWord;
+                    
+                    output_rd_addr = 5'h0;
+                    output_rd_val = `ZeroWord;
+                    stall = 3'b000;
+                end
             endcase
         end else begin
             memctl_op = `MEM_NOP;
+            memctl_len = `MEM_BYTE;
+            memctl_addr = `ZeroWord;
+            memctl_data = `ZeroWord;
+            
             output_forward = forward;
             forward_rd_addr = rd_addr;
             forward_rd_val = rd_val;

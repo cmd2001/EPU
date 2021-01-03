@@ -197,6 +197,22 @@ always @(*) begin
                  ins_details = ins[14: 12];
                  ins_diff = ins[30];
             end
+            default: begin
+                read_flag_1 = 1'b0;
+                reg_read_1 = 5'h0;
+                read_flag_2 = 1'b0;
+                reg_read_2 = 5'h0;
+        
+                r1_addr = 5'h0;
+                r1_data = `ZeroWord;
+                r2_addr = 5'h0;
+                r2_data = `ZeroWord;
+                rd_addr = 5'h0;
+                imm = `ZeroWord;
+                ins_type = 7'h0;
+                ins_details = 2'h0;
+                ins_diff = 1'b0;
+            end
         endcase
     end
 end

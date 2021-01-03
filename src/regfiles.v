@@ -55,11 +55,12 @@ end
 
 integer i;
 
-always @(*) begin
+always @(posedge clk_in) begin
     if(rst_in) begin
         for(i = 0; i < 32; i=i+1) begin
             regs[i] <= `ZeroWord;
         end
+    end else if(!rdy_in) begin
     end else if (write_flag && reg_write) begin
         regs[reg_write] <= write_data;
     end

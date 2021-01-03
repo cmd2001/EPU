@@ -207,6 +207,22 @@ always @(*) begin
                 mem_val = `ZeroWord;
                 stall_id = 1'b0;
             end
+            default: begin
+                alu_ins_type = `ALU_NOP;
+                alu_ins_details = 3'b0;
+                alu_ins_diff = 1'b0;
+                alu_r1 = `ZeroWord;
+                alu_r2 = `ZeroWord;
+        
+                take_jmp = 1'b0;
+                jmp_pc = `ZeroWord;
+                output_rd_addr = 5'h0;
+                rd_val = 5'h0;
+                forward = 1'b0;
+                mem_addr = `ZeroWord;
+                mem_val = `ZeroWord;
+                stall_id = 1'b0;
+            end
         endcase
     end
 end
