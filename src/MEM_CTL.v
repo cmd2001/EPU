@@ -46,7 +46,9 @@ always @(posedge clk_in) begin
         icache_index[0] <= `ZeroWord + 1;
     end else begin
         if(take_jmp) begin
-            curSta <= `MEM_INIT;
+            if(!mem_just_finished) begin
+                curSta <= `MEM_INIT;
+            end
         end else begin
             case(curSta)
                 `MEM_STALL1: begin
@@ -92,6 +94,7 @@ always @(posedge clk_in) begin
                         if(icache_index[IF_addr & `icache_mask] == IF_addr) begin
                             raw_addr <= IF_addr;
                             curSta <= `MEM_HIT;
+                            mem_just_finished <= 1'b0;
                         end else begin
                             op <= IF_op;
                             addr <= IF_addr + 1;
