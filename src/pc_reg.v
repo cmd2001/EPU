@@ -3,7 +3,7 @@ module pc_reg(
   input  wire           rst_in,
   input  wire           rdy_in,
 
-  input  wire [2: 0]   stall,
+  input  wire [2: 0]    stall,
   input  wire           jmp_tak,
   input  wire [31: 0]   jmp_tar,
 

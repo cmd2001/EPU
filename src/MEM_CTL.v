@@ -50,6 +50,9 @@ always @(posedge clk_in) begin
             icache_data[i] <= `ZeroWord;
             icache_index[i] <= `ZeroWord;
         end
+        mem_wr <= 1'b0; // don't forget, otherwise it will stop on next run.
+        mem_dout <= `ZeroWord;
+        mem_a <= `ZeroWord;
     end else if(!rdy_in) begin
     end else begin
         if(take_jmp) begin
