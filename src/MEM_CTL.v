@@ -55,10 +55,8 @@ always @(posedge clk_in) begin
         mem_a <= `ZeroWord;
     end else if(!rdy_in) begin
     end else begin
-        if(take_jmp) begin
-            if(!mem_just_finished) begin
-                curSta <= `MEM_INIT;
-            end
+        if(take_jmp && !mem_just_finished) begin
+            curSta <= `MEM_INIT;
         end else begin
             case(curSta)
                 `MEM_STALL1: begin
