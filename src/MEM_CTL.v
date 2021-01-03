@@ -37,6 +37,8 @@ reg[31: 0] icache_data[127: 0];
 reg[31: 0] icache_index[127: 0];
 `define icache_mask 127
 
+integer i;
+
 always @(posedge clk_in) begin
     if(rst_in) begin
         curSta <= `MEM_INIT;
@@ -44,6 +46,10 @@ always @(posedge clk_in) begin
         IF_rdy <= 1'b0;
         MEM_rdy <= 1'b0;
         icache_index[0] <= `ZeroWord + 1;
+        for(i = 1; i < 127; i=i+1) begin
+            icache_data[i] <= `ZeroWord;
+            icache_index[i] <= `ZeroWord;
+        end
     end else if(!rdy_in) begin
     end else begin
         if(take_jmp) begin

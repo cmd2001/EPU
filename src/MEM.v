@@ -123,6 +123,8 @@ always @(*) begin
             memctl_op = `MEM_SAVE;
             memctl_addr = mem_addr;
             memctl_data = mem_val;
+            output_rd_addr = 5'b0;
+            output_rd_val = `ZeroWord;
             output_forward = 1'b0;
             forward_rd_addr = 5'b0;
             forward_rd_val = `ZeroWord;
