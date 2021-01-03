@@ -58,7 +58,7 @@
 `define XOR 3'b100
 `define SRL_SRA 3'b101
 `define SRL_Diff 1'b0
-`define SRA_Diff 1'b0
+`define SRA_Diff 1'b1
 `define OR 3'b110
 `define AND 3'b111
 
