@@ -16,12 +16,14 @@ always @(posedge clk_in) begin
         id_pc <= `NOP_PC;
         id_ins <= `NOP_INS;
     end else begin
-        if(stall == `STALL_IF) begin
-            id_pc <= `NOP_PC;
-            id_ins <= `NOP_INS;
-        end else if(!(stall & `STALL_MASK_IFID)) begin
-            id_pc <= if_pc;
-            id_ins <= if_ins;
+        if(!(stall & `STALL_MASK_IFID)) begin
+            if(stall == `STALL_IF) begin
+                id_pc <= `NOP_PC;
+                id_ins <= `NOP_INS;
+            end else begin
+                id_pc <= if_pc;
+                id_ins <= if_ins;
+            end
         end
     end
 end

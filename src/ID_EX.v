@@ -6,8 +6,8 @@ module ID_EX(
 
   input  wire [2: 0]    stall,
 
-  inout  wire           forward_ex_enable,
-  inout  wire [4: 0]    forward_ex_addr,
+  input  wire           forward_ex_enable,
+  input  wire [4: 0]    forward_ex_addr,
   input  wire [31: 0]   forward_ex_data,
 
   input  wire           forward_mem_enable,
@@ -36,7 +36,7 @@ module ID_EX(
 );
 
 always @(posedge clk_in) begin
-    if(rst_in || clear) begin // output NOP
+    if(rst_in) begin // output NOP
         output_r1_data <= `ZeroWord;
         output_r2_data <= `ZeroWord;
         output_rd_addr <= 1'h0;
@@ -47,7 +47,7 @@ always @(posedge clk_in) begin
         output_pc <= `ZeroWord;
     end else begin
         if(!(stall & `STALL_MASK_IDEX_EXMEM)) begin
-            if(stall == `STALL_ID) begin
+            if(clear || stall == `STALL_ID) begin
                 output_r1_data <= `ZeroWord;
                 output_r2_data <= `ZeroWord;
                 output_rd_addr <= 1'h0;
